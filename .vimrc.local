@@ -1,2 +1,40 @@
-set wrap
-set cinoptions+=g0
+" General {
+    set nocompatible               " 关闭 vi 兼容模式
+    set autoread                   " 文件外部变动自动加载
+    set autowrite                  " 自动保存
+    set mouse=a                    " 鼠标支持
+    set helplang=cn                " 中文文档
+    " set nobackup                 " 从不备份
+    " set noswapfile               " 关闭交换文件
+    " set whichwrap+=<,>,h,l       " 退格和方向可以换行
+    " set mouse=n                  " 所有模式使用鼠标
+    " set matchtime=1              " 匹配括号高亮的时间（单位是十分之一秒）
+    set fileencodings=utf-8        " 文件编码设置
+    " set t_ti= t_te=              " 设置退出vim后，内容显示在终端屏幕
+    set hidden                     " 允许在有未保存的修改时切换缓冲区
+    map <tab> :bn<cr>              " 切换下一个页面
+    map <S-tab> :bp<cr>            " 切换上一个页面
+    set autochdir                  " 自动设置当前目录为正在编辑的目录
+" }
+
+" Formatting {
+    autocmd BufNewFile,BufRead *.h,*.c setfiletype cpp " h和c文件类型用cpp
+    set wrap                        " 控制长行是否折到下一行显示
+    set cc=80                       " 显示80个字符竖线
+    set shiftwidth=4                " 缩进用4个空格表示
+    set expandtab                   " 用空格代替tab
+    set tabstop=4                   " 一个tab相当于4个空格
+    set softtabstop=4               " backspace可以删除缩进
+    set autoindent                  " 自动缩进
+    set smartindent                 " 智能缩进
+    set cindent                     " c/c++风格
+    set cinoptions+=g0,:0,l1,b1
+    set backspace=eol,start,indent  " allow backspace over everything
+    set nojoinspaces                " 用J命令合并两行时会用一个空格来分隔
+" }
+
+" search {
+    set incsearch                   " 跟踪搜索
+    set hlsearch                    " 高亮搜索
+    set ignorecase                  " 搜索忽略大小写
+" }
