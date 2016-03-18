@@ -38,3 +38,7 @@
     set hlsearch                    " 高亮搜索
     set ignorecase                  " 搜索忽略大小写
 " }
+
+" nerdtree {
+    let NERDTreeQuitOnOpen=0        " not close on file open
+" }
