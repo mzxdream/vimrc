@@ -31,6 +31,7 @@
     set cinoptions+=g0,:0,l1,b1
     set backspace=eol,start,indent  " allow backspace over everything
     set nojoinspaces                " 用J命令合并两行时会用一个空格来分隔
+    set listchars=tab:>-,trail:~,extends:>,precedes:<
 " }
 
 " search {
