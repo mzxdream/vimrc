@@ -1,45 +1,117 @@
 " General {
-    set nocompatible               " 关闭 vi 兼容模式
-    set autoread                   " 文件外部变动自动加载
-    set autowrite                  " 自动保存
-    set mouse=a                    " 鼠标支持
-    set helplang=cn                " 中文文档
-    " set nobackup                 " 从不备份
-    " set noswapfile               " 关闭交换文件
-    " set whichwrap+=<,>,h,l       " 退格和方向可以换行
-    " set mouse=n                  " 所有模式使用鼠标
-    " set matchtime=1              " 匹配括号高亮的时间（单位是十分之一秒）
-    set fileencodings=utf-8        " 文件编码设置
-    " set t_ti= t_te=              " 设置退出vim后，内容显示在终端屏幕
-    set hidden                     " 允许在有未保存的修改时切换缓冲区
-    map <tab> :bn<cr>              " 切换下一个页面
-    map <S-tab> :bp<cr>            " 切换上一个页面
-    set autochdir                  " 自动设置当前目录为正在编辑的目录
+set nocompatible               " 关闭 vi 兼容模式
+set autoread                   " 文件外部变动自动加载
+set autowrite                  " 自动保存
+set mouse=a                    " 鼠标支持
+set helplang=cn                " 中文文档
+" set nobackup                 " 从不备份
+" set noswapfile               " 关闭交换文件
+" set whichwrap+=<,>,h,l       " 退格和方向可以换行
+" set mouse=n                  " 所有模式使用鼠标
+" set matchtime=1              " 匹配括号高亮的时间（单位是十分之一秒）
+set fileencodings=utf-8        " 文件编码设置
+" set t_ti= t_te=              " 设置退出vim后，内容显示在终端屏幕
+set hidden                     " 允许在有未保存的修改时切换缓冲区
+map <tab> :bn<cr>              " 切换下一个页面
+map <S-tab> :bp<cr>            " 切换上一个页面
+set autochdir                  " 自动设置当前目录为正在编辑的目录
 " }
 
 " Formatting {
-    autocmd BufNewFile,BufRead *.h,*.c setfiletype cpp " h和c文件类型用cpp
-    set wrap                        " 控制长行是否折到下一行显示
-    set cc=80                       " 显示80个字符竖线
-    set shiftwidth=4                " 缩进用4个空格表示
-    set expandtab                   " 用空格代替tab
-    set tabstop=4                   " 一个tab相当于4个空格
-    set softtabstop=4               " backspace可以删除缩进
-    set autoindent                  " 自动缩进
-    set smartindent                 " 智能缩进
-    set cindent                     " c/c++风格
-    set cinoptions+=g0,:0,l1,b1
-    set backspace=eol,start,indent  " allow backspace over everything
-    set nojoinspaces                " 用J命令合并两行时会用一个空格来分隔
-    set listchars=tab:>-,trail:~,extends:>,precedes:<
+set wrap                        " 控制长行是否折到下一行显示
+set cc=80                       " 显示80个字符竖线
+set expandtab                   " 用空格代替tab
+set shiftwidth=4                " 缩进用4个空格表示
+set tabstop=4                   " 一个tab相当于4个空格
+set softtabstop=4
+set backspace=eol,start,indent  " allow backspace over everything
+set nojoinspaces                " 用J命令合并两行时会用一个空格来分隔
+set listchars=tab:>-,trail:~,extends:>,precedes:< "show special character
 " }
 
 " search {
-    set incsearch                   " 跟踪搜索
-    set hlsearch                    " 高亮搜索
-    set ignorecase                  " 搜索忽略大小写
+set incsearch                   " 跟踪搜索
+set hlsearch                    " 高亮搜索
+set ignorecase                  " 搜索忽略大小写
 " }
 
 " nerdtree {
-    let NERDTreeQuitOnOpen=0        " not close on file open
+let NERDTreeQuitOnOpen=0        " not close on file open
+" }
+"
+" indent {
+"autocmd BufNewFile,BufRead *.h,*.c setfiletype cpp " h和c文件类型用cpp
+"set autoindent                  " 自动缩进
+"set smartindent                 " 智能缩进
+"set cindent                     " c/c++风格
+"set cino+=g0,:0,l1,b1,t0
+if exists("b:did_indent")
+    finish
+endif
+let b:did_indent = 1
+
+
+function! GoogleCppIndent()
+    let l:cline_num = line('.')
+
+    let l:orig_indent = cindent(l:cline_num)
+
+    if l:orig_indent == 0 | return 0 | endif
+
+    let l:pline_num = prevnonblank(l:cline_num - 1)
+    let l:pline = getline(l:pline_num)
+    if l:pline =~# '^\s*template' | return l:pline_indent | endif
+
+    " TODO: I don't know to correct it:
+    " namespace test {
+    " void
+    " ....<-- invalid cindent pos
+    "
+    " void test() {
+    " }
+    "
+    " void
+    " <-- cindent pos
+    if l:orig_indent != &shiftwidth | return l:orig_indent | endif
+
+    let l:in_comment = 0
+    let l:pline_num = prevnonblank(l:cline_num - 1)
+    while l:pline_num > -1
+        let l:pline = getline(l:pline_num)
+        let l:pline_indent = indent(l:pline_num)
+
+        if l:in_comment == 0 && l:pline =~ '^.\{-}\(/\*.\{-}\)\@<!\*/'
+            let l:in_comment = 1
+        elseif l:in_comment == 1
+            if l:pline =~ '/\*\(.\{-}\*/\)\@!'
+                let l:in_comment = 0
+            endif
+        elseif l:pline_indent == 0
+            if l:pline !~# '\(#define\)\|\(^\s*//\)\|\(^\s*{\)'
+                if l:pline =~# '^\s*namespace.*'
+                    return 0
+                else
+                    return l:orig_indent
+                endif
+            elseif l:pline =~# '\\$'
+                return l:orig_indent
+            endif
+        else
+            return l:orig_indent
+        endif
+
+        let l:pline_num = prevnonblank(l:pline_num - 1)
+    endwhile
+
+    return l:orig_indent
+endfunction
+
+set cindent
+set cinoptions=l1,g0,t0,W4
+
+let b:undo_indent = "setl sw< ts< sts< et< tw< wrap< cin< cino< inde<"
+
+if has("autocmd")
+    autocmd BufEnter *.{cc,cxx,cpp,h,hh,hpp,hxx} setlocal indentexpr=GoogleCppIndent()
+endif
 " }
