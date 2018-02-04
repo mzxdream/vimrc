@@ -4,6 +4,7 @@ set autoread                   " 文件外部变动自动加载
 set autowrite                  " 自动保存
 set mouse=a                    " 鼠标支持
 set helplang=cn                " 中文文档
+set nu
 " set nobackup                 " 从不备份
 " set noswapfile               " 关闭交换文件
 " set whichwrap+=<,>,h,l       " 退格和方向可以换行
@@ -26,7 +27,12 @@ set tabstop=4                   " 一个tab相当于4个空格
 set softtabstop=4
 set backspace=eol,start,indent  " allow backspace over everything
 set nojoinspaces                " 用J命令合并两行时会用一个空格来分隔
-set listchars=tab:>-,trail:~,extends:>,precedes:< "show special character
+"set listchars=tab:>-,trail:~,extends:>,precedes:< "show special character
+" show invisible
+set list
+set list listchars=tab:▸\ ,trail:·,precedes:←,extends:→,eol:↲,nbsp:␣
+hi NonText ctermfg=16 guifg=#4a4a59
+hi SpecialKey ctermfg=16 guifg=#4a4a59
 " }
 
 " search {
@@ -38,6 +44,9 @@ set ignorecase                  " 搜索忽略大小写
 " nerdtree {
 let NERDTreeQuitOnOpen=0        " not close on file open
 " }
+"缩进指示线"
+let g:indentLine_char='┆'
+let g:indentLine_enabled = 1
 "
 " indent {
 "autocmd BufNewFile,BufRead *.h,*.c setfiletype cpp " h和c文件类型用cpp
