@@ -30,7 +30,7 @@ set nojoinspaces                " 用J命令合并两行时会用一个空格来
 "set listchars=tab:>-,trail:~,extends:>,precedes:< "show special character
 " show invisible
 set list
-set list listchars=tab:▸\ ,trail:·,precedes:←,extends:→,eol:↲,nbsp:␣
+set list listchars=tab:▸\ ,trail:·,precedes:←,extends:→,nbsp:␣
 hi NonText ctermfg=16 guifg=#4a4a59
 hi SpecialKey ctermfg=16 guifg=#4a4a59
 " }
