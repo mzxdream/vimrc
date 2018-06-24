@@ -1,5 +1,5 @@
 " General {
-    filetype off                  " 这是必需的 
+    filetype off                   " 这是必需的 
     set nocompatible               " 关闭 vi 兼容模式
     set autoread                   " 文件外部变动自动加载
     set autowrite                  " 自动保存
@@ -43,25 +43,37 @@
     set ignorecase                  " 搜索忽略大小写
 " }
 
-" plugin {
+" vundle {
       
-    " 你在此设置运行时路径 
-    set rtp+=~/.vim/bundle/Vundle.vim  
-     
-    " vundle初始化 
-    call vundle#begin()  
-    " 这应该始终是第一个 
-    Plugin 'gmarik/Vundle.vim' 
+    "" 你在此设置运行时路径 
+    "set rtp+=~/.vim/bundle/Vundle.vim  
+    " 
+    "" vundle初始化 
+    "call vundle#begin()  
+    "" 这应该始终是第一个 
+    "Plugin 'gmarik/Vundle.vim' 
 
-    Plugin 'junegunn/vim-easy-align'
-    Plugin 'ludovicchabant/vim-gutentags'
-    Plugin 'scrooloose/nerdtree'
-    Plugin 'w0rp/ale'
-    Plugin 'octol/vim-cpp-enhanced-highlight'
-    Plugin 'Valloric/YouCompleteMe'
-     
-    "每个插件都应该在这一行之前  
-    call vundle#end()            " required 
+    "Plugin 'junegunn/vim-easy-align'
+    "Plugin 'ludovicchabant/vim-gutentags'
+    "Plugin 'scrooloose/nerdtree'
+    "Plugin 'w0rp/ale'
+    "Plugin 'octol/vim-cpp-enhanced-highlight'
+    "Plugin 'Valloric/YouCompleteMe'
+    " 
+    ""每个插件都应该在这一行之前  
+    "call vundle#end()            " required 
+"}
+
+" vim-plug {
+    call plug#begin('~/.vim/plugged')
+
+    Plug 'ludovicchabant/vim-gutentags'
+    Plug 'scrooloose/nerdtree'
+    Plug 'w0rp/ale'
+    Plug 'octol/vim-cpp-enhanced-highlight'
+    Plug 'Valloric/YouCompleteMe'
+
+    call plug#end()
 "}
 
 " nerdtree {
