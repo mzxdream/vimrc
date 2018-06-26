@@ -43,27 +43,6 @@
     set ignorecase                  " 搜索忽略大小写
 " }
 
-" vundle {
-      
-    "" 你在此设置运行时路径 
-    "set rtp+=~/.vim/bundle/Vundle.vim  
-    " 
-    "" vundle初始化 
-    "call vundle#begin()  
-    "" 这应该始终是第一个 
-    "Plugin 'gmarik/Vundle.vim' 
-
-    "Plugin 'junegunn/vim-easy-align'
-    "Plugin 'ludovicchabant/vim-gutentags'
-    "Plugin 'scrooloose/nerdtree'
-    "Plugin 'w0rp/ale'
-    "Plugin 'octol/vim-cpp-enhanced-highlight'
-    "Plugin 'Valloric/YouCompleteMe'
-    " 
-    ""每个插件都应该在这一行之前  
-    "call vundle#end()            " required 
-"}
-
 " vim-plug {
     call plug#begin('~/.vim/plugged')
 
@@ -89,27 +68,23 @@
 " }
 
 " ale {
-    let g:ale_linters_explicit = 1
-    let g:ale_completion_delay = 500
-    let g:ale_echo_delay = 20
-    let g:ale_lint_delay = 500
-    let g:ale_echo_msg_format = '[%linter%] %code: %%s'
-    let g:ale_lint_on_text_changed = 'normal'
-    let g:ale_lint_on_insert_leave = 1
-    let g:airline#extensions#ale#enabled = 1
-    
+    let g:ale_sign_column_always = 1
+    let g:ale_set_highlights = 0
+    let g:ale_sign_error = '✗'
+    let g:ale_sign_warning = '⚡'
+    let g:ale_statusline_format = ['✗ %d', '⚡ %d', '✔ OK']
+    let g:ale_echo_msg_error_str = 'E'
+    let g:ale_echo_msg_warning_str = 'W'
+    let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+    nmap sp <Plug>(ale_previous_wrap)
+    nmap sn <Plug>(ale_next_wrap)
+    nmap <Leader>s :ALEToggle<CR>
+    nmap <Leader>d :ALEDetail<CR>
+    set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}\ %{ALEGetStatusLine()}
+    let g:ale_lint_on_text_changed = 'never'
+    let g:ale_lint_on_enter = 0
     let g:ale_c_gcc_options = '-Wall -O2 -std=c99'
     let g:ale_cpp_gcc_options = '-Wall -O2 -std=c++11'
-    let g:ale_c_cppcheck_options = ''
-    let g:ale_cpp_cppcheck_options = ''
-
-    let g:ale_sign_error = "\ue009\ue009"
-    hi! clear SpellBad
-    hi! clear SpellCap
-    hi! clear SpellRare
-    hi! SpellBad gui=undercurl guisp=red
-    hi! SpellCap gui=undercurl guisp=blue
-    hi! SpellRare gui=undercurl guisp=magenta
 " }
 
 " YCM {
