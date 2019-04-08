@@ -6,7 +6,7 @@ call plug#begin('~/.vim/plugged')
 "bottom {
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
-    let g:airline_theme='light
+    let g:airline_theme='light'
 "}
 "tags符号索引 {
     Plug 'universal-ctags/ctags'
@@ -145,6 +145,7 @@ call plug#begin('~/.vim/plugged')
     set softtabstop=4          " Tab key indents by 4 spaces.
     set shiftwidth=4           " >> indents by 4 spaces.
     set shiftround             " >> indents to next multiple of 'shiftwidth'.
+    set nu
     
     set hidden                 " Switch between buffers without having to save first.
     set display=lastline       " Show as much as possible of the last line.
