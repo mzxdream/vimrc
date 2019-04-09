@@ -156,8 +156,7 @@ call plug#begin('~/.vim/plugged')
     set autoindent                  " 自动缩进
     set smartindent                 " 智能缩进
     set cindent                     " c/c++风格
-    set cinoptions+=l1,g0,t0,W4
-    let b:undo_indent = "setl sw< ts< sts< et< tw< wrap< cin< cino< inde<"
+    set cinoptions+=l1,g0,t0,W4,N-s,:0
 "}
 
 "search{
@@ -173,8 +172,8 @@ call plug#begin('~/.vim/plugged')
     inoremap } <c-r>=ClosePair('}')<CR>
     inoremap [ []<ESC>i
     inoremap ] <c-r>=ClosePair(']')<CR>
-    inoremap < <><ESC>i
-    inoremap > <c-r>=ClosePair('>')<CR>
+    "inoremap < <><ESC>i
+    "inoremap > <c-r>=ClosePair('>')<CR>
     inoremap ' ''<ESC>i
     inoremap " ""<ESC>i
 
