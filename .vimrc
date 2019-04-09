@@ -208,10 +208,18 @@ call plug#begin('~/.vim/plugged')
     set wrapscan               " Searches wrap around end-of-file.
     set report=0               " Always report changed lines.
     set synmaxcol=120          " Only highlight the first 200 columns.
+
     set list                   " Show non-printable characters.
     set listchars=tab:▸\ ,trail:·,precedes:←,extends:→,nbsp:␣ ",space:·
     hi NonText ctermfg=239
     hi SpecialKey ctermfg=239
+
+    "autocmd InsertLeave * se nocul  " 用浅色高亮当前插入行
+    "autocmd InsertEnter * se cul    " 用浅色高亮当前插入行
+    "set cursorcolumn                 "or set cuc 设置光标所在的列
+    "highlight CursorColumn cterm=NONE ctermbg=blue ctermfg=NONE guibg=NONE guifg=NONE
+    "set cursorline                   "or set cul 设置光标所在的行
+    highlight CursorLine cterm=NONE ctermbg=blue ctermfg=NONE guibg=NONE guifg=NONE
 
     " Put all temporary files under the same directory.
     let s:vim_backup = expand("$HOME/.vim/files/backup/")
