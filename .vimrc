@@ -1,14 +1,12 @@
 call plug#begin('~/.vim/plugged')
 
-"basic基本设置 {
-    Plug 'tpope/vim-sensible'
-"}
-"bottom {
+"底部状态{
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     let g:airline_theme='light'
 "}
-"tags符号索引 {
+
+"tags符号索引{
     Plug 'universal-ctags/ctags'
     Plug 'ludovicchabant/vim-gutentags'
     " gutentags 搜索工程目录的标志，碰到这些文件/目录名就停止向上一级目录递归
@@ -27,21 +25,23 @@ call plug#begin('~/.vim/plugged')
         silent! call mkdir(s:vim_tags, 'p')
     endif
 "}
-""aysncrun编译运行 {
-"    Plug 'skywind3000/asyncrun.vim'
-"    " asyncrun 搜索工程目录的标志，碰到这些文件/目录名就停止向上一级目录递归。
-"    " 如果递归到根目录还没找到，那么文件所在目录就被当作项目目录。
-"    let g:asyncrun_rootmarks = ['.svn', '.git', '.root', '_darcs', 'build.xml']
-"    " 自动打开 quickfix window ，高度为 6
-"    let g:asyncrun_open = 6
-"    " 任务结束时候响铃提醒
-"    let g:asyncrun_bell = 1
-"    " 设置 F10 打开/关闭 Quickfix 窗口
-"    nnoremap <F10> :call asyncrun#quickfix_toggle(6)<cr>
-"    " 设置 F7 从工程根目录编译整个工程
-"    nnoremap <silent> <F7> :AsyncRun -cwd=<root> make <cr>
-""}
-"ALE代码检查 {
+
+"aysncrun编译运行{
+    Plug 'skywind3000/asyncrun.vim'
+    " asyncrun 搜索工程目录的标志，碰到这些文件/目录名就停止向上一级目录递归。
+    " 如果递归到根目录还没找到，那么文件所在目录就被当作项目目录。
+    let g:asyncrun_rootmarks = ['.svn', '.git', '.root', '_darcs', 'build.xml']
+    " 自动打开 quickfix window ，高度为 6
+    let g:asyncrun_open = 6
+    " 任务结束时候响铃提醒
+    let g:asyncrun_bell = 1
+    " 设置 F10 打开/关闭 Quickfix 窗口
+    "nnoremap <F10> :call asyncrun#quickfix_toggle(6)<cr>
+    " 设置 F7 从工程根目录编译整个工程
+    "nnoremap <silent> <F7> :AsyncRun -cwd=<root> make <cr>
+"}
+
+"ALE代码检查{
     Plug 'w0rp/ale'
     let g:ale_linters_explicit = 1
     let g:ale_linters = {
@@ -65,19 +65,23 @@ call plug#begin('~/.vim/plugged')
     let g:ale_c_cppcheck_options = ''
     let g:ale_cpp_cppcheck_options = ''
 "}
-"vim-signify修改比较 {
+
+"vim-signify修改比较{
     Plug 'mhinz/vim-signify'
     let g:signify_vcs_list = [ 'git' ]
     let g:signify_sign_show_text = 1
 "}
-"vim-cpp-enhanced-highlight语法高亮 {
+
+"vim-cpp-enhanced-highlight语法高亮{
     Plug 'octol/vim-cpp-enhanced-highlight'
     let c_no_curly_error = 1
 "}
-"vim-unimpaired编辑辅助 {
+
+"vim-unimpaired编辑辅助{
     Plug 'tpope/vim-unimpaired'
 "}
-"YouCompleteMe代码补全 {
+
+"YouCompleteMe代码补全{
     Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --go-completer' }
     let g:ycm_global_ycm_extra_conf='~/.vim/plugged/YouCompleteMe/third_party/ycmd/examples/.ycm_extra_conf.py'
     let g:ycm_add_preview_to_completeopt = 0
@@ -112,11 +116,13 @@ call plug#begin('~/.vim/plugged')
         \ 'infolog' : 1,
         \ }
 "}
-"echodoc参数提示 {
+
+"echodoc参数提示{
     Plug 'Shougo/echodoc.vim'
     set noshowmode
 "}
-"Leader函数列表 {
+
+"Leader函数列表{
     Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
     let g:Lf_ShortcutF = '<c-p>'
     let g:Lf_ShortcutB = '<m-n>'
@@ -134,40 +140,80 @@ call plug#begin('~/.vim/plugged')
     let g:Lf_StlColorscheme = 'powerline'
     let g:Lf_PreviewResult = {'Function':0, 'BufTag':0}
 "}
-"文件浏览 vim-dirvish{
+
+"vim-dirvish文件浏览{
     Plug 'vim-scripts/a.vim'
     Plug 'justinmk/vim-dirvish'
 "}
 
-"other {
+"vim-indentLine缩进线{
+    Plug 'Yggdroot/indentLine'
+    "let g:indentLine_color_term = 239
+"}
+
+"indent缩进{
+    autocmd BufNewFile,BufRead *.h,*.c setfiletype cpp " h和c文件类型用cpp
+    set autoindent                  " 自动缩进
+    set smartindent                 " 智能缩进
+    set cindent                     " c/c++风格
+    set cinoptions+=l1,g0,t0,W4
+    let b:undo_indent = "setl sw< ts< sts< et< tw< wrap< cin< cino< inde<"
+"}
+
+"search{
+    set incsearch              " 跟踪搜索
+    set hlsearch               " 高亮搜索
+    set ignorecase             " 搜索忽略大小写
+"}
+
+"括号自动补全{
+    inoremap ( ()<ESC>i
+    inoremap ) <c-r>=ClosePair(')')<CR>
+    inoremap { {}<ESC>i
+    inoremap } <c-r>=ClosePair('}')<CR>
+    inoremap [ []<ESC>i
+    inoremap ] <c-r>=ClosePair(']')<CR>
+    inoremap < <><ESC>i
+    inoremap > <c-r>=ClosePair('>')<CR>
+    inoremap ' ''<ESC>i
+    inoremap " ""<ESC>i
+
+    function ClosePair(char)
+        if getline('.')[col('.') - 1] == a:char
+            return "<Right>"
+        else
+            return a:char
+        endif
+    endf
+"}
+
+"basic基本设置{
+    Plug 'tpope/vim-sensible'
     set autoindent             " Indent according to previous line.
     set expandtab              " Use spaces instead of tabs.
     set softtabstop=4          " Tab key indents by 4 spaces.
     set shiftwidth=4           " >> indents by 4 spaces.
     set shiftround             " >> indents to next multiple of 'shiftwidth'.
+    set helplang=cn            " 中文文档
     set nu
-    
+    set cc=100                 " 显示100个字符竖线
+    set nojoinspaces           " 用J命令合并两行时会用一个空格来分隔
+    set fileencodings=utf-8    " 文件编码设置
     set hidden                 " Switch between buffers without having to save first.
     set display=lastline       " Show as much as possible of the last line.
-    
     set ttyfast                " Faster redrawing.
     set lazyredraw             " Only redraw when necessary.
-    
     set splitbelow             " Open new windows below the current window.
     set splitright             " Open new windows right of the current window.
-    
-    set cursorline             " Find the current line quickly.
+    "set cursorline             " Find the current line quickly.
     set wrapscan               " Searches wrap around end-of-file.
     set report=0               " Always report changed lines.
     set synmaxcol=120          " Only highlight the first 200 columns.
-    
     set list                   " Show non-printable characters.
-    if has('multi_byte') && &encoding ==# 'utf-8'
-        let &listchars = 'tab:▸ ,extends:❯,precedes:❮,nbsp:±'
-    else
-        let &listchars = 'tab:> ,extends:>,precedes:<,nbsp:.'
-    endif
-    
+    set listchars=tab:▸\ ,trail:·,precedes:←,extends:→,nbsp:␣ ",space:·
+    hi NonText ctermfg=239
+    hi SpecialKey ctermfg=239
+
     " Put all temporary files under the same directory.
     let s:vim_backup = expand("$HOME/.vim/files/backup/")
     if !isdirectory(s:vim_backup)
